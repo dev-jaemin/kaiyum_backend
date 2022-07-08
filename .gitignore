@@ -1,4 +1,7 @@
 /node_modules
 /build
-#.env
-#.env.development
+.env
+.env.development
+dbSetup.sql
+combined.log
+error.log

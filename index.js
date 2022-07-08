@@ -3,6 +3,8 @@ import dotenv from "dotenv";
 import logger from "morgan";
 import menu from "./CampusMenu.json" assert { type: "json" };
 
+import userController from "./src/controller/UserController.js";
+
 dotenv.config();
 
 const app = express();
@@ -17,11 +19,7 @@ if (process.env.NODE_ENV === "production") {
 }
 
 // API 예시
-app.get("/restaurant", (req, res) => {
-    res.json({
-        restaurants: ["핵밥", "지코바", "카이마루"],
-    });
-});
+app.use("/user", userController);
 
 app.get("/campus", (req, res) => {
     const name = req.query["name"];
