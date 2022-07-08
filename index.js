@@ -1,6 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import logger from "morgan";
+import menu from "./CampusMenu.json" assert { type: "json" };
 
 dotenv.config();
 
@@ -19,6 +20,14 @@ if (process.env.NODE_ENV === "production") {
 app.get("/restaurant", (req, res) => {
     res.json({
         restaurants: ["핵밥", "지코바", "카이마루"],
+    });
+});
+
+app.get("/campus", (req, res) => {
+    const name = req.query["name"];
+    console.log(menu[name]);
+    res.send({
+        name: menu[name],
     });
 });
 
