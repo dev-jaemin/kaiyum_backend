@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import logger from "morgan";
 
 import userController from "./src/controller/UserController.js";
+import RestaurantController from "./src/controller/RestaurantController.js";
 
 dotenv.config();
 
@@ -17,8 +18,9 @@ if (process.env.NODE_ENV === "production") {
     app.use(logger("dev"));
 }
 
-// API 예시
+// ROUTER
 app.use("/user", userController);
+app.use("/restaurant", RestaurantController);
 
 // 위에서부터 순서대로 처리하므로 여기까지 왔다면 404 not found
 app.get((req, res) => {
