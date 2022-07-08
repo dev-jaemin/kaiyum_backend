@@ -5,3 +5,5 @@
 dbSetup.sql
 combined.log
 error.log
+package-lock.json
+yarn.lock

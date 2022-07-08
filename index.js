@@ -4,6 +4,7 @@ import logger from "morgan";
 import menu from "./CampusMenu.json" assert { type: "json" };
 
 import userController from "./src/controller/UserController.js";
+import RestaurantController from "./src/controller/RestaurantController.js";
 
 dotenv.config();
 
@@ -18,8 +19,9 @@ if (process.env.NODE_ENV === "production") {
     app.use(logger("dev"));
 }
 
-// API 예시
+// ROUTER
 app.use("/user", userController);
+app.use("/restaurant", RestaurantController);
 
 app.get("/campus", (req, res) => {
     const name = req.query["name"];
