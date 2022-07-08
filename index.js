@@ -2,6 +2,8 @@ import express from "express";
 import dotenv from "dotenv";
 import logger from "morgan";
 
+import userController from "./src/controller/UserController.js";
+
 dotenv.config();
 
 const app = express();
@@ -16,11 +18,7 @@ if (process.env.NODE_ENV === "production") {
 }
 
 // API 예시
-app.get("/restaurant", (req, res) => {
-    res.json({
-        restaurants: ["핵밥", "지코바", "카이마루"],
-    });
-});
+app.use("/user", userController);
 
 // 위에서부터 순서대로 처리하므로 여기까지 왔다면 404 not found
 app.get((req, res) => {
