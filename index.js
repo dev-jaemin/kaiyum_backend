@@ -1,6 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import logger from "morgan";
+import menu from "./CampusMenu.json" assert { type: "json" };
 
 import userController from "./src/controller/UserController.js";
 
@@ -19,6 +20,14 @@ if (process.env.NODE_ENV === "production") {
 
 // API 예시
 app.use("/user", userController);
+
+app.get("/campus", (req, res) => {
+    const name = req.query["name"];
+    console.log(menu[name]);
+    res.send({
+        name: menu[name],
+    });
+});
 
 // 위에서부터 순서대로 처리하므로 여기까지 왔다면 404 not found
 app.get((req, res) => {

@@ -1,0 +1,44 @@
+from bs4 import BeautifulSoup
+import requests
+import re
+import json
+
+def converToString(raw):
+    raw_list = ""
+    for x in raw:
+        raw_list += str(x)
+    result = re.sub(r'\s','',raw_list)
+    result = result.replace('<ulclass="list-1st">','').replace('</ul>','').replace('<br/>','\n')
+    return result
+
+def extractMenu(url):
+    data = requests.get(url).text
+    soup = BeautifulSoup(data, 'lxml')
+    table = soup.find('table')
+    
+    raw_morning = table.find('td')
+    raw_lunch = table.find('ul', class_="list-1st")
+    raw_dinner = raw_lunch.find_next('ul', class_="list-1st")
+
+    morning = converToString(raw_morning)
+    lunch = converToString(raw_lunch)
+    dinner = converToString(raw_dinner)
+
+    return {"morning": morning, "lunch": lunch, "dinner": dinner}
+
+
+if __name__ == '__main__':
+    urls = ["https://kaist.ac.kr/kr/html/campus/053001.html?dvs_cd=fclt",
+            "https://kaist.ac.kr/kr/html/campus/053001.html?dvs_cd=west",
+            "https://kaist.ac.kr/kr/html/campus/053001.html?dvs_cd=east1",
+            "https://kaist.ac.kr/kr/html/campus/053001.html?dvs_cd=east2"]
+    cafes = ["fclt", "west", "east1", "east2"]
+
+    menuDict = {}
+
+    for i in range(len(urls)):
+        menuDict[cafes[i]] = extractMenu(urls[i])
+    
+    with open("CampusMenu.json", "w") as outfile:
+        json.dump(menuDict, outfile, ensure_ascii=False)
+    
