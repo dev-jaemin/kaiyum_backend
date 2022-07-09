@@ -22,10 +22,4 @@ router.get("/search", async (req, res) => {
     res.send(data);
 });
 
-router.get("/review/:rid", async (req, res) => {
-    const data = await RestaurantService.getReviews(req.params["rid"]);
-
-    res.send(data);
-});
-
 export default router;

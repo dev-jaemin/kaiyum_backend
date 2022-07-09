@@ -5,6 +5,7 @@ import menu from "./CampusMenu.json" assert { type: "json" };
 
 import userController from "./src/controller/UserController.js";
 import RestaurantController from "./src/controller/RestaurantController.js";
+import ReviewController from "./src/controller/ReviewController.js";
 
 dotenv.config();
 
@@ -20,10 +21,13 @@ if (process.env.NODE_ENV === "production") {
 }
 
 app.use(express.static("public"));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 // ROUTER
 app.use("/user", userController);
 app.use("/restaurant", RestaurantController);
+app.use("/review", ReviewController);
 
 app.get("/campus", (req, res) => {
     const name = req.query["name"];

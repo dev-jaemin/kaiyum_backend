@@ -25,11 +25,6 @@ const RestaurantService = {
 
         return result;
     },
-    getReviews: async (rid) => {
-        const result = await RestaurantModel.getReviews(rid);
-
-        return result;
-    },
 };
 
 export default RestaurantService;
