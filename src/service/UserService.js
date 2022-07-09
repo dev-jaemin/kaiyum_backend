@@ -8,6 +8,12 @@ const UserService = {
 
         return user;
     },
+
+    addUser: async (unid, nickname) => {
+        const result = await UserModel.addUserByUNID(unid, nickname);
+
+        return result;
+    },
 };
 
 export default UserService;
