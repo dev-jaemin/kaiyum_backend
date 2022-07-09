@@ -5,7 +5,7 @@ const RestaurantModel = {
     getAllRestaurants: async () => {
         try {
             const result = await getConnection(`
-                SELECT rid, name, location, img, IFNULL(AVG(score), 0) as score, COUNT(distinct review_id) as review_count
+                SELECT rid, name, location, img, IFNULL(AVG(score), 0) AS score, COUNT(distinct review_id) AS review_count
                 FROM kaiyum.restaurant LEFT JOIN kaiyum.review USING(rid) 
                 GROUP BY rid, name, location;`);
 
@@ -13,14 +13,14 @@ const RestaurantModel = {
         } catch (e) {
             logger.error(e);
 
-            return {};
+            return [];
         }
     },
     getRestaurantByRID: async (rid) => {
         try {
             const result = await getConnection(
                 `
-                SELECT name, location, img, AVG(score) as score 
+                SELECT name, location, img, IFNULL(AVG(score), 0) AS score, COUNT(distinct review_id) AS review_count
                 FROM kaiyum.restaurant LEFT JOIN kaiyum.review USING(rid)
                 WHERE rid = ? 
                 GROUP BY name, location;`,
@@ -48,7 +48,7 @@ const RestaurantModel = {
         } catch (e) {
             logger.error(e);
 
-            return {};
+            return [];
         }
     },
 };
