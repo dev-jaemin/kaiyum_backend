@@ -13,6 +13,25 @@ const UserModel = {
             return {};
         }
     },
+
+    addUserByUNID: async (unid, nickname) => {
+        try {
+            await getConnection(
+                "INSERT INTO kaiyum.user (unid, nickname) SELECT ?, ? FROM DUAL WHERE NOT EXISTS (SELECT * FROM kaiyum.user WHERE unid = ? AND nickname = ?)",
+                [unid, nickname, unid, nickname]
+            );
+
+            return {
+                message: "success",
+            };
+        } catch (err) {
+            logger.error(err);
+
+            return {
+                message: "fail",
+            };
+        }
+    },
 };
 
 export default UserModel;
