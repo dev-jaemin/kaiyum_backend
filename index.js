@@ -1,6 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import logger from "morgan";
+import menu from "./CampusMenu.json" assert { type: "json" };
 
 import userController from "./src/controller/UserController.js";
 import RestaurantController from "./src/controller/RestaurantController.js";
@@ -23,6 +24,14 @@ app.use(express.static("public"));
 // ROUTER
 app.use("/user", userController);
 app.use("/restaurant", RestaurantController);
+
+app.get("/campus", (req, res) => {
+    const name = req.query["name"];
+    console.log(menu[name]);
+    res.send({
+        name: menu[name],
+    });
+});
 
 // 위에서부터 순서대로 처리하므로 여기까지 왔다면 404 not found
 app.get((req, res) => {
