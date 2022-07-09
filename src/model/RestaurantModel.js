@@ -69,23 +69,6 @@ const RestaurantModel = {
             return [];
         }
     },
-    getReviews: async (rid) => {
-        try {
-            const result = await getConnection(
-                `
-                SELECT nickname, text, score, review.regdate 
-                FROM kaiyum.review LEFT JOIN kaiyum.user USING(unid)
-                WHERE rid = ?`,
-                rid
-            );
-
-            return result[0];
-        } catch (e) {
-            logger.error(e);
-
-            return [];
-        }
-    },
 };
 
 export default RestaurantModel;
