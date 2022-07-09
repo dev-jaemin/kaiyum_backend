@@ -1,7 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import logger from "morgan";
-import menu from "./CampusMenu.json";
+import menu from "./CampusMenu.json" assert { type: "json" };
 
 import userController from "./src/controller/UserController.js";
 import RestaurantController from "./src/controller/RestaurantController.js";
