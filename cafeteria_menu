@@ -39,6 +39,6 @@ if __name__ == '__main__':
     for i in range(len(urls)):
         menuDict[cafes[i]] = extractMenu(urls[i])
     
-    with open("CampusMenu.json", "w") as outfile:
+    with open("./kaiyum_backend/CampusMenu.json", "w") as outfile:
         json.dump(menuDict, outfile, ensure_ascii=False)
     
