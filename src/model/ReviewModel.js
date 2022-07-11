@@ -6,7 +6,7 @@ const ReviewModel = {
         try {
             const result = await getConnection(
                 `
-                SELECT nickname, text, score, review.regdate 
+                SELECT nickname, text, score, review.img, review.regdate 
                 FROM kaiyum.review LEFT JOIN kaiyum.user USING(unid)
                 WHERE rid = ?`,
                 rid
@@ -23,10 +23,10 @@ const ReviewModel = {
     getMyReviews: async (unid) => {
         try {
             const result = await getConnection(
-                "SELECT nickname, name, text, score, review.regdate FROM kaiyum.review LEFT JOIN kaiyum.user USING(unid) LEFT JOIN kaiyum.restaurant USING(rid) WHERE unid = ?",
+                "SELECT nickname, name, text, score, review.img, review.regdate FROM kaiyum.review LEFT JOIN kaiyum.user USING(unid) LEFT JOIN kaiyum.restaurant USING(rid) WHERE unid = ?",
                 unid
             );
-            return result[0][0];
+            return result[0];
         } catch (e) {
             logger.error(e);
             return [];
