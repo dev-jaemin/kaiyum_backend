@@ -1,13 +1,13 @@
 import RestaurantModel from "../model/RestaurantModel.js";
 
 const RestaurantService = {
-    getRestaurants: async (location) => {
+    getRestaurants: async (location, start, count) => {
         let result;
 
         if (location === "all") {
             result = await RestaurantModel.getAllRestaurants();
         } else {
-            result = await RestaurantModel.getRestaurantsByLocation(location);
+            result = await RestaurantModel.getRestaurantsByLocation(location, parseInt(start), parseInt(count));
         }
 
         return result;
@@ -17,7 +17,6 @@ const RestaurantService = {
 
         return result;
     },
-    // BASE64 인코딩된 key값을 받아야 함.
     getRestaurantsBySearch: async (key) => {
         const decodedKey = decodeURI(key);
 

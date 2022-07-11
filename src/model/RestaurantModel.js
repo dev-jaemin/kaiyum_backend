@@ -7,7 +7,8 @@ const RestaurantModel = {
             const result = await getConnection(`
                 SELECT rid, name, location, restaurant.img, x, y, IFNULL(AVG(score), 0) AS score, COUNT(distinct review_id) AS review_count
                 FROM kaiyum.restaurant LEFT JOIN kaiyum.review USING(rid) 
-                GROUP BY rid, name, location, x, y;`);
+                GROUP BY rid, name, location, x, y
+                ORDER BY score DESC;`);
 
             return result[0];
         } catch (e) {
@@ -23,7 +24,8 @@ const RestaurantModel = {
                 SELECT name, location, restaurant.img, x, y, IFNULL(AVG(score), 0) AS score, COUNT(distinct review_id) AS review_count
                 FROM kaiyum.restaurant LEFT JOIN kaiyum.review USING(rid)
                 WHERE rid = ?
-                GROUP BY name, location, x, y;`,
+                GROUP BY name, location, x, y
+                ORDER BY score DESC;`,
                 rid
             );
 
@@ -34,15 +36,18 @@ const RestaurantModel = {
             return {};
         }
     },
-    getRestaurantsByLocation: async (location) => {
+    getRestaurantsByLocation: async (location, start, count) => {
         try {
             const result = await getConnection(
-                `
-                SELECT rid, name, location, restaurant.img, x, y, IFNULL(AVG(score), 0) AS score, COUNT(distinct review_id) AS review_count
-                FROM kaiyum.restaurant LEFT JOIN kaiyum.review USING(rid) 
-                WHERE location = ?
-                GROUP BY rid, name, location, x, y;`,
-                location
+                `SELECT *
+                FROM (
+                    SELECT rid, name, location, restaurant.img, x, y, IFNULL(AVG(score), 0) AS score, COUNT(distinct review_id) AS review_count
+                    FROM kaiyum.restaurant LEFT JOIN kaiyum.review USING(rid) 
+                    WHERE location = ?
+                    GROUP BY rid, name, location, x, y
+                    ORDER BY score DESC) AS a
+                LIMIT ?, ?;`,
+                [location, start, count]
             );
 
             return result[0];
@@ -59,7 +64,8 @@ const RestaurantModel = {
                 SELECT rid, name, location, restaurant.img, x, y, IFNULL(AVG(score), 0) AS score, COUNT(distinct review_id) AS review_count
                 FROM kaiyum.restaurant LEFT JOIN kaiyum.review USING(rid) 
                 WHERE name LIKE "%${key}%"
-                GROUP BY rid, name, location, x, y;`
+                GROUP BY rid, name, location, x, y
+                ORDER BY score DESC;`
             );
 
             return result[0];
