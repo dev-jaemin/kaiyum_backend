@@ -18,6 +18,13 @@ const ReviewService = {
 
         return result;
     },
+
+    uploadImage: async (req, res, next) => {
+        const url = process.env.HOST + "/image/review/" + req.file.filename;
+        const result = await ReviewModel.updateImageUrl(req.query.reviewId, url);
+
+        res.status(201).send(result);
+    },
 };
 
 export default ReviewService;

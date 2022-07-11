@@ -36,6 +36,23 @@ const ReviewModel = {
     writeReview: async (rid, unid, text, score) => {
         try {
             const result = await getConnection("INSERT INTO kaiyum.review (rid, unid, text, score) VALUES (?, ?, ?, ?)", [rid, unid, text, score]);
+
+            return {
+                review_id: result[0].insertId,
+                message: "success",
+            };
+        } catch (e) {
+            logger.error(e);
+            return {
+                message: "fail",
+            };
+        }
+    },
+
+    updateImageUrl: async (reviewId, imgUrl) => {
+        try {
+            const result = await getConnection("UPDATE kaiyum.review SET img = ? WHERE review_id = ?", [imgUrl, reviewId]);
+
             return {
                 message: "success",
             };
