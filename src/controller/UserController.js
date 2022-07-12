@@ -11,7 +11,12 @@ router.get("/", async (req, res) => {
 
 router.post("/", async (req, res) => {
     const result = await UserService.addUser(req.query["unid"], req.query["nickname"]);
-    console.log(result);
+
+    res.send(result);
+});
+
+router.put("/", async (req, res) => {
+    const result = await UserService.updateNickname(req.query["unid"], req.query["newNickname"]);
 
     res.send(result);
 });

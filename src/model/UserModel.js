@@ -32,6 +32,22 @@ const UserModel = {
             };
         }
     },
+
+    updateNickName: async (unid, newNickname) => {
+        try {
+            await getConnection(`UPDATE kaiyum.user SET nickname = ?, changed_nickname = true WHERE unid = ?`, [newNickname, unid]);
+
+            return {
+                message: "success",
+            };
+        } catch (e) {
+            logger.error(err);
+
+            return {
+                message: "fail",
+            };
+        }
+    },
 };
 
 export default UserModel;

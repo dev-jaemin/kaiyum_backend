@@ -10,9 +10,26 @@ const UserService = {
     },
 
     addUser: async (unid, nickname) => {
-        const result = await UserModel.addUserByUNID(unid, nickname);
+        const decodedName = decodeURI(nickname);
+
+        const result = await UserModel.addUserByUNID(unid, decodedName);
 
         return result;
+    },
+
+    updateNickname: async (unid, newNickname) => {
+        const user = await UserModel.getUserByUNID(unid);
+
+        if (user.changed_nickname) {
+            return {
+                message: "already changed",
+            };
+        } else {
+            const decodedName = decodeURI(newNickname);
+            const result = await UserModel.updateNickName(unid, decodedName);
+
+            return result;
+        }
     },
 };
 

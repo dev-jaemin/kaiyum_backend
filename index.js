@@ -40,7 +40,6 @@ app.use("/review", ReviewController);
 
 app.get("/campus", (req, res) => {
     const name = req.query["name"];
-    console.log(menu[name]);
     res.send({
         name: menu[name],
     });
@@ -53,5 +52,5 @@ app.get((req, res) => {
 
 // 서버 실행 코드
 app.listen(port, () => {
-    console.log(`server is listening at ${process.env.HOST}:${port}`);
+    console.log(`server is listening at ${process.env.HOST}`);
 });
